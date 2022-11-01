@@ -2,14 +2,29 @@
 const { ApolloServer } = require(`apollo-server`)
 
 const typeDefs = `
-    type Query {
-        totalPhotos: Int!
+    
+    # Photo型の定義
+    type Photo {
+        id: ID!
+        url: String!
+        name: String!
+        description: String
     }
 
+    # allPhotosはPhoto型のリストを返す
+    type Query {
+        totalPhotos: Int!
+        allPhotos: [Photo!]!
+    }
+
+    # ミューテーションによって新たに投稿されたPhotoを返す
     type Mutation {
-        postPhoto(name: String! description: String): Boolean!
+        postPhoto(name: String! description: String): Photo!
     }
 `
+
+// ユニークIDをインクリメントするための変数
+let _id = 0
 
 // 写真を格納するための配列
 let photos = []
@@ -18,15 +33,30 @@ const resolvers = {
     Query: {
 
         // 写真を格納した配列の長さを返す
-        totalPhotos: () => photos.length
+        totalPhotos: () => photos.length,
+        
+        // 写真を格納した配列を返す
+        allPhotos: () => photos
     },
 
     // postPhotoミューテーションと対応するリゾルバ
     Mutation: {
         postPhoto(parent, args) {
-            photos.push(args)
-            return true
+
+            // 新しい写真を作成し，idを生成する
+            var newPhoto = {
+                id: _id++,
+                ...args
+            }
+            photos.push(newPhoto)
+
+            // 新しい写真を返す
+            return newPhoto
         }
+    },
+
+    Photo: {
+        url: parent => 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'
     }
 }
 
