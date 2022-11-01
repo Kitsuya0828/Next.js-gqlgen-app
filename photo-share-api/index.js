@@ -5,11 +5,28 @@ const typeDefs = `
     type Query {
         totalPhotos: Int!
     }
+
+    type Mutation {
+        postPhoto(name: String! description: String): Boolean!
+    }
 `
+
+// 写真を格納するための配列
+let photos = []
 
 const resolvers = {
     Query: {
-        totalPhotos: () => 42
+
+        // 写真を格納した配列の長さを返す
+        totalPhotos: () => photos.length
+    },
+
+    // postPhotoミューテーションと対応するリゾルバ
+    Mutation: {
+        postPhoto(parent, args) {
+            photos.push(args)
+            return true
+        }
     }
 }
 
