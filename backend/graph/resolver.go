@@ -1,5 +1,7 @@
 package graph
 
+//go:generate go run github.com/99designs/gqlgen generate
+
 import "github.com/Kitsuya0828/Next.js-gqlgen-app/backend/graph/model"
 
 // This file will not be regenerated automatically.
