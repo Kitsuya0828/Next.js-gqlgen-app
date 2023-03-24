@@ -8,8 +8,9 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/Kitsuya0828/Next.js-gqlgen-app/docs/chapter03/graph"
-	internal "github.com/Kitsuya0828/Next.js-gqlgen-app/docs/chapter03/internal"
+	"github.com/Kitsuya0828/Next.js-gqlgen-app/docs/chapter03/internal"
 )
+
 
 const defaultPort = "8080"
 
