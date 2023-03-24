@@ -1,6 +1,8 @@
 package main
 
 import (
+	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -8,20 +10,34 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/Kitsuya0828/Next.js-gqlgen-app/docs/chapter03/graph"
+	"github.com/Kitsuya0828/Next.js-gqlgen-app/docs/chapter03/graph/services"
 	"github.com/Kitsuya0828/Next.js-gqlgen-app/docs/chapter03/internal"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 
-const defaultPort = "8080"
+const (
+	defaultPort = "8080"
+	dbFile      = "./mygraphql.db"
+)
 
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
 	}
+	db, err := sql.Open("sqlite3", fmt.Sprintf("%s?_foreign_keys=on", dbFile))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
 
-	srv := handler.NewDefaultServer(internal.NewExecutableSchema(internal.Config{Resolvers: &graph.Resolver{}}))
+	service := services.New(db)
 
+	srv := handler.NewDefaultServer(internal.NewExecutableSchema(internal.Config{Resolvers: &graph.Resolver{
+		Srv:     service,
+	}}))
+	
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)
 
