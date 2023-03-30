@@ -12,7 +12,6 @@ import (
 	"github.com/Kitsuya0828/Next.js-gqlgen-app/docs/chapter03/graph"
 	"github.com/Kitsuya0828/Next.js-gqlgen-app/docs/chapter03/graph/services"
 	"github.com/Kitsuya0828/Next.js-gqlgen-app/docs/chapter03/internal"
-	_ "github.com/mattn/go-sqlite3"
 )
 
 
@@ -26,7 +25,7 @@ func main() {
 	if port == "" {
 		port = defaultPort
 	}
-	db, err := sql.Open("sqlite3", fmt.Sprintf("%s?_foreign_keys=on", dbFile))
+	db, err := sql.Open("sqlite3", fmt.Sprintf("%s?_foreign_keys=on&parseTime=true", dbFile))
 	if err != nil {
 		log.Fatal(err)
 	}
