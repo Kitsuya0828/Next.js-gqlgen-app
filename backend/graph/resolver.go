@@ -8,6 +8,6 @@ import "github.com/Kitsuya0828/Next.js-gqlgen-app/backend/graph/model"
 //
 // It serves as dependency injection for your app, add any dependencies you require here.
 
-type Resolver struct{
+type Resolver struct {
 	todos []*model.Todo
 }

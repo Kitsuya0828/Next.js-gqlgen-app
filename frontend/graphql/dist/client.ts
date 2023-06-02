@@ -54,7 +54,9 @@ export type GetTodoQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetTodoQuery = { __typename?: 'Query', todos: Array<{ __typename?: 'Todo', id: string, text: string }> };
 
-export type CreateTodoMutationVariables = Exact<{ [key: string]: never; }>;
+export type CreateTodoMutationVariables = Exact<{
+  text: Scalars['String'];
+}>;
 
 
 export type CreateTodoMutation = { __typename?: 'Mutation', createTodo: { __typename?: 'Todo', text: string, done: boolean, user: { __typename?: 'User', id: string } } };
@@ -69,8 +71,8 @@ export const GetTodoDocument = gql`
 }
     `;
 export const CreateTodoDocument = gql`
-    mutation createTodo {
-  createTodo(input: {text: "todo", userId: "1"}) {
+    mutation createTodo($text: String!) {
+  createTodo(input: {text: $text, userId: "1"}) {
     user {
       id
     }
@@ -90,7 +92,7 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     getTodo(variables?: GetTodoQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTodoQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetTodoQuery>(GetTodoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTodo', 'query');
     },
-    createTodo(variables?: CreateTodoMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateTodoMutation> {
+    createTodo(variables: CreateTodoMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateTodoMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateTodoMutation>(CreateTodoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createTodo', 'mutation');
     }
   };
