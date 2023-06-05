@@ -17,17 +17,25 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 	todo := &model.Todo{
 		Content: input.Content,
 		ID:      fmt.Sprintf("T%d", rand.Int()),
-		User:    &model.User{ID: input.UserID, Name: "user " + input.UserID},
+		// User:    &model.User{ID: input.UserID, Name: "user " + input.UserID},
+		Done: false,
 		UserID:  input.UserID,
 	}
-	r.todos = append(r.todos, todo)
+	result := r.DB.Unscoped().Create(todo)
+	if err := result.Error; err != nil {
+		return nil, err
+	}
+	// r.todos = append(r.todos, todo)
 	return todo, nil
 	// panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
 }
 
 // Todos is the resolver for the todos field.
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	return r.todos, nil
+	var todos []*model.Todo
+	r.DB.Unscoped().Find(&todos)
+	// return r.todos, nil
+	return todos, nil
 	// panic(fmt.Errorf("not implemented: Todos - todos"))
 }
 

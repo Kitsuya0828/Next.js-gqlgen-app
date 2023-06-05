@@ -56,6 +56,7 @@ export type GetTodoQuery = { __typename?: 'Query', todos: Array<{ __typename?: '
 
 export type CreateTodoMutationVariables = Exact<{
   content: Scalars['String'];
+  userId: Scalars['String'];
 }>;
 
 
@@ -71,8 +72,8 @@ export const GetTodoDocument = gql`
 }
     `;
 export const CreateTodoDocument = gql`
-    mutation createTodo($content: String!) {
-  createTodo(input: {content: $content, userId: "1"}) {
+    mutation createTodo($content: String!, $userId: String!) {
+  createTodo(input: {content: $content, userId: $userId}) {
     user {
       id
     }

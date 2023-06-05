@@ -1,9 +1,12 @@
 package model
 
+// import "gorm.io/gorm"
+
 type Todo struct {
-	ID     string `json:"id"`
-	Content   string `json:"content"`
-	Done   bool   `json:"done"`
-	UserID string `json:"userId"`
+	// gorm.Model
+	ID     string `gorm:"id" json:"id"`
+	Content   string `gorm:"content" json:"content"`
+	Done   bool   `gorm:"done" json:"done"`
+	UserID string `gorm:"userId" json:"userId"`
 	User   *User  `json:"user"`
 }

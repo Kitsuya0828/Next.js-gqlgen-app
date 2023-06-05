@@ -5,8 +5,8 @@ query getTodo {
     }
 }
 
-mutation createTodo($content: String!) {
-    createTodo(input: { content: $content, userId: "1" }) {
+mutation createTodo($content: String!, $userId: String!) {
+    createTodo(input: { content: $content, userId: $userId }) {
         user {
             id
         }

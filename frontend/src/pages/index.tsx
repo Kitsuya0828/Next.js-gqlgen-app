@@ -5,6 +5,7 @@ import { CreateTodoDocument, CreateTodoMutation, GetTodoDocument } from "../../g
 import { GetTodoQuery } from "../../graphql/dist/client";
 import { useState } from "react";
 import { Button, Card, Container, Grid, Input, Spacer, Text } from "@nextui-org/react";
+import { randomInt } from "crypto";
 
 
 const Home: NextPage = () => {
@@ -46,7 +47,7 @@ const Home: NextPage = () => {
           <Button
             onClick={
               async () => {
-                await addTodo({ variables: { content: text } });
+                await addTodo({ variables: { content: text, userId: (Math.floor(Math.random() * 100)).toString() } });
                 setText("");
                 refetch()
               }
