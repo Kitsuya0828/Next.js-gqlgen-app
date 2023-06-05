@@ -26,7 +26,7 @@ export type MutationCreateTodoArgs = {
 };
 
 export type NewTodo = {
-  text: Scalars['String'];
+  content: Scalars['String'];
   userId: Scalars['String'];
 };
 
@@ -37,9 +37,9 @@ export type Query = {
 
 export type Todo = {
   __typename?: 'Todo';
+  content: Scalars['String'];
   done: Scalars['Boolean'];
   id: Scalars['ID'];
-  text: Scalars['String'];
   user: User;
 };
 
@@ -52,31 +52,31 @@ export type User = {
 export type GetTodoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTodoQuery = { __typename?: 'Query', todos: Array<{ __typename?: 'Todo', id: string, text: string }> };
+export type GetTodoQuery = { __typename?: 'Query', todos: Array<{ __typename?: 'Todo', id: string, content: string }> };
 
 export type CreateTodoMutationVariables = Exact<{
-  text: Scalars['String'];
+  content: Scalars['String'];
 }>;
 
 
-export type CreateTodoMutation = { __typename?: 'Mutation', createTodo: { __typename?: 'Todo', text: string, done: boolean, user: { __typename?: 'User', id: string } } };
+export type CreateTodoMutation = { __typename?: 'Mutation', createTodo: { __typename?: 'Todo', content: string, done: boolean, user: { __typename?: 'User', id: string } } };
 
 
 export const GetTodoDocument = gql`
     query getTodo {
   todos {
     id
-    text
+    content
   }
 }
     `;
 export const CreateTodoDocument = gql`
-    mutation createTodo($text: String!) {
-  createTodo(input: {text: $text, userId: "1"}) {
+    mutation createTodo($content: String!) {
+  createTodo(input: {content: $content, userId: "1"}) {
     user {
       id
     }
-    text
+    content
     done
   }
 }

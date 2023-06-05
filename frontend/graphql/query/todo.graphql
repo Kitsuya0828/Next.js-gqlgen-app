@@ -1,16 +1,16 @@
 query getTodo {
     todos {
         id
-        text
+        content
     }
 }
 
-mutation createTodo($text: String!) {
-    createTodo(input: { text: $text, userId: "1" }) {
+mutation createTodo($content: String!) {
+    createTodo(input: { content: $content, userId: "1" }) {
         user {
             id
         }
-        text
+        content
         done
     }
 }

@@ -1,6 +1,7 @@
 import type { AppProps } from "next/app";
 import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client";
+import { NextUIProvider } from '@nextui-org/react';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const link = createHttpLink({
@@ -14,7 +15,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ApolloProvider client={client}>
-      <Component {...pageProps} />
+      <NextUIProvider>
+        <Component {...pageProps} />
+      </NextUIProvider>
     </ApolloProvider>
   );
 }
